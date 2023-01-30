@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_form_inherit_helpdesk">
+        <field name="name">helpdesk_ticket_field_added</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+        <field name="arch" type="xml">
+            <field name="email_cc" position="after">
+            
+                <field name="actual_hours"/>
+                <field name="actual_complete_date"/>
+                <field name="difference_date"/>
+                <field name="remarks"/>
+
+            </field>
+             
+            <xpath expr="//form/sheet/group/group[1]/field[@name='company_id']" position="after">
+                <field name="date_start" required="1"/>
+                <field name="end_date" required="1"/>
+                <field name="planned_hours" required="1"/> 
+                <field name="due_date" required="1"/>
+ 
+            </xpath>  
+
+            <xpath expr="//field[@name='team_id']" position="replace">
+                  <field name="team_id" required="1"/>
+
+                
+ 
+            </xpath> 
+
+            <xpath expr="//form/sheet/group/group[1]/field[@name='user_id']" position="replace">
+
+                <field name="user_id" class="field_user_id" domain="['&amp;', ('id', 'in', domain_user_ids), ('share', '=', False)]" widget="many2one_avatar_user" required="1"/>
+ 
+            </xpath>   
+
+        </field>
+    </record>
+
+   <record model="ir.ui.view" id="view_order_form_inherit_helpdesk">
+        <field name="name">tree.view.added</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_tree"/>
+        <field name="arch" type="xml">
+               <field name="partner_id" position="after">
+                    <field name="due_date" optional="show" widget="remaining_days"
+                        />
+                    <field name="date_start" optional="show"/>
+                    <field name="end_date" optional="show"/>
+                    <field name="planned_hours" optional="show"/> 
+                    <field name="actual_hours" optional="show"/>
+                    <field name="actual_complete_date" optional="show"/>
+                    <field name="difference_date" optional="show"/>
+                    <field name="remarks" optional="show"/>
+
+               </field>
+        </field>
+    </record>   
+
+    <record id="helpdesk_ticket_order_filter_123" model="ir.ui.view">
+            <field name="name">filter.form.inheriteds.view</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+            <field name="arch" type="xml">
+            
+                 <xpath expr="//filter[@name='creation_date']" position="after">
+                    <filter string="Due Date" name="due_date" date="due_date"/>
+                    <filter string="Start Date" name="date_start" date="date_start"/>
+                    <filter string="End Date" name="end_date" date="end_date"/>
+                    <filter string="Planned Hours" name="planned_hours" date="planned_hours"/>
+                    <filter string="Actual Hours" name="actual_hours" date="actual_hours" />
+                    <filter string="Actual Complete Date" name="actual_complete_date" date="actual_complete_date"/>
+                    <filter string="Difference Date" name="difference_date" date="difference_date"/>
+                    <filter string="Remarks" name="remarks" date="remarks"/>
+
+                </xpath>
+
+            </field>
+        </record>
+
+         <!--  <record model="ir.ui.view" id="marks_pivot_view">
+            <field name="name">helpdesk.ticket.pivot.added</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="arch" type="xml">
+                <pivot string="Helpdesk Tickets" sample="1">
+                    <field name="difference_date" type="row"/>
+
+                </pivot>
+            </field>
+        </record> -->
+<!--         helpdesk_ticket_view_pivot_main
+ --></odoo>
